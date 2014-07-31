@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Needles.Resolvers
 {
-    public class LazyResolver<T> : IResolver<T>
+    internal class LazyResolver<T> : IResolver<T>
     {
         private readonly IContainer _container;
         private readonly Type[] _parameterTypes;

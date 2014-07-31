@@ -32,5 +32,16 @@ namespace Needles.Tests
 
             Assert.AreNotEqual(instance1, instance2);
         }
+
+        [Test]
+        public void ResolveByTypeTest()
+        {
+            var container = new Container();
+            container.Map<IConnection>().To<Connection>().AsService();
+
+            var instance = container.Resolve(typeof (IConnection));
+
+            Assert.IsInstanceOf<IConnection>(instance);
+        }
     }
 }

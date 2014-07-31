@@ -1,4 +1,5 @@
 ﻿using Needles.Resolvers;
+using Needles.Tests.Mocks;
 using Needles.Tests.Types;
 using NUnit.Framework;
 
@@ -9,7 +10,7 @@ namespace Needles.Tests.Resolvers
         [Test]
         public void ResolveInstanceTest()
         {
-            var resolver = new FuncResolver<Connection>(new Container(), c => new Connection());
+            var resolver = new FuncResolver<Connection>(new ContainerMock(), c => new Connection());
 
             var instance = resolver.Resolve();
 

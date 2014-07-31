@@ -1,4 +1,5 @@
 ﻿using Needles.Mappers;
+using Needles.Tests.Mocks;
 using Needles.Tests.Types;
 using NUnit.Framework;
 
@@ -11,7 +12,7 @@ namespace Needles.Tests
         {
             var connection = new Connection();
 
-            IMapper<Connection> mapper = new Mapper<Connection>(new Container());
+            IMapper<Connection> mapper = new Mapper<Connection>(new ContainerMock());
             mapper.To(connection);
 
             var instance = ((IMapping<Connection>)mapper).Resolve();
@@ -22,7 +23,7 @@ namespace Needles.Tests
         [Test]
         public void MapToFunctionTest()
         {
-            IMapper<Connection> mapper = new Mapper<Connection>(new Container());
+            IMapper<Connection> mapper = new Mapper<Connection>(new ContainerMock());
             mapper.To(c => new Connection());
 
             var instance = ((IMapping<Connection>) mapper).Resolve();
@@ -33,7 +34,7 @@ namespace Needles.Tests
         [Test]
         public void MapServiceTest()
         {
-            IMapper<IConnection> mapper = new Mapper<IConnection>(new Container());
+            IMapper<IConnection> mapper = new Mapper<IConnection>(new ContainerMock());
             mapper.To<Connection>().AsService();
 
             var instance1 = ((IMapping<IConnection>)mapper).Resolve();
@@ -45,7 +46,7 @@ namespace Needles.Tests
         [Test]
         public void MapToSelfTest()
         {
-            IMapper<Connection> mapper = new Mapper<Connection>(new Container());
+            IMapper<Connection> mapper = new Mapper<Connection>(new ContainerMock());
             mapper.ToSelf();
 
             var instance1 = ((IMapping<Connection>)mapper).Resolve();

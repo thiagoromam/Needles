@@ -1,4 +1,5 @@
 ﻿using Needles.Resolvers;
+using Needles.Tests.Mocks;
 using Needles.Tests.Types;
 using NUnit.Framework;
 
@@ -6,14 +7,12 @@ namespace Needles.Tests.Resolvers
 {
     public class LazyResolverTest
     {
-        private Container _container;
         private LazyResolver<Connection> _resolver;
 
         [SetUp]
         public void Setup()
         {
-            _container = new Container();
-            _resolver = new LazyResolver<Connection>(_container);
+            _resolver = new LazyResolver<Connection>(new ContainerMock());
         }
 
         [Test]
@@ -36,11 +35,10 @@ namespace Needles.Tests.Resolvers
         [Test]
         public void ResolveLoopTest()
         {
-            var container = new Container();
-            container.Map<IConnection>().To<Connection>();
-            container.Map<IDatabase>().To<Database>();
-
-            var instance = container.Resolve<IDatabase>();
+            var container = new ContainerMock(new Connection());
+            var resolver = new LazyResolver<Database>(container);
+            
+            var instance = resolver.Resolve();
 
             Assert.IsNotNull(instance);
         }
