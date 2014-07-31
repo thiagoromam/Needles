@@ -12,4 +12,6 @@ It supports the following platforms:
 * Xamarin.Android
 * Xamarin.IOS
 
+Nuget Package: [Needles DI](https://nuget.org/packages/Needles/)
+
 ***Project name: System of a Down - Needles*** :D
