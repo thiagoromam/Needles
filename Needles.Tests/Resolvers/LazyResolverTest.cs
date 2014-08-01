@@ -37,10 +37,24 @@ namespace Needles.Tests.Resolvers
         {
             var container = new ContainerMock(new Connection());
             var resolver = new LazyResolver<Database>(container);
-            
+
             var instance = resolver.Resolve();
 
             Assert.IsNotNull(instance);
+        }
+
+        [Test]
+        public void ResolveWithArgsTest()
+        {
+            var container = new ContainerMock(new ProductData());
+            var resolver = new LazyResolver<Product>(container);
+
+            var product = resolver.Resolve(new object[] { 1, 2, "test" });
+
+            Assert.AreEqual(product.Number, 1);
+            Assert.AreEqual(product.Data, container.Instance);
+            Assert.AreEqual(product.Number2, 2);
+            Assert.AreEqual(product.Name, "test");
         }
     }
 }
