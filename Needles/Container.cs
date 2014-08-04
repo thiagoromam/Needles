@@ -6,8 +6,8 @@ namespace Needles
 {
     public interface IContainer
     {
-        object Resolve(Type type);
-        T Resolve<T>();
+        object Resolve(Type type, params object[] args);
+        T Resolve<T>(params object[] args);
     }
 
     public class Container : IContainer
@@ -29,14 +29,14 @@ namespace Needles
             return (IMapper<T>)_mappers[type];
         }
 
-        public T Resolve<T>()
+        public T Resolve<T>(params object[] args)
         {
-            return ((IMapping<T>)_mappers[typeof(T)]).Resolve();
+            return ((IMapping<T>)_mappers[typeof(T)]).Resolve(args);
         }
 
-        public object Resolve(Type type)
+        public object Resolve(Type type, params object[] args)
         {
-            return ((IMapping)_mappers[type]).Resolve();
+            return ((IMapping)_mappers[type]).Resolve(args);
         }
     }
 }

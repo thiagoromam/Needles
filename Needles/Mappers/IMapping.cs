@@ -2,11 +2,11 @@
 {
     internal interface IMapping
     {
-        object Resolve();
+        object Resolve(object[] args);
     }
 
     internal interface IMapping<out T> : IMapping
     {
-        new T Resolve();
+        new T Resolve(object[] args);
     }
 }

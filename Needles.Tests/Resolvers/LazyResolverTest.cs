@@ -1,4 +1,4 @@
-﻿using Needles.Resolvers;
+﻿using Needles.Resolvers.LazyResolvers;
 using Needles.Tests.Mocks;
 using Needles.Tests.Types;
 using NUnit.Framework;
@@ -18,7 +18,7 @@ namespace Needles.Tests.Resolvers
         [Test]
         public void ResolveInstanceTest()
         {
-            var instance = _resolver.Resolve();
+            var instance = _resolver.Resolve(null);
 
             Assert.AreEqual(instance.GetType(), typeof(Connection));
         }
@@ -26,8 +26,8 @@ namespace Needles.Tests.Resolvers
         [Test]
         public void ResolveMoreThanOneInstanceTest()
         {
-            var instance1 = _resolver.Resolve();
-            var instance2 = _resolver.Resolve();
+            var instance1 = _resolver.Resolve(null);
+            var instance2 = _resolver.Resolve(null);
 
             Assert.AreNotEqual(instance1, instance2);
         }
@@ -38,7 +38,7 @@ namespace Needles.Tests.Resolvers
             var container = new ContainerMock(new Connection());
             var resolver = new LazyResolver<Database>(container);
 
-            var instance = resolver.Resolve();
+            var instance = resolver.Resolve(null);
 
             Assert.IsNotNull(instance);
         }

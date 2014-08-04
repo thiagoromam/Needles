@@ -2,6 +2,6 @@
 {
     internal interface IResolver<out T>
     {
-        T Resolve();
+        T Resolve(object[] args);
     }
 }

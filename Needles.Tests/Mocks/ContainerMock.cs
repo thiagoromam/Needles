@@ -11,12 +11,12 @@ namespace Needles.Tests.Mocks
             Instance = instance;
         }
 
-        public object Resolve(Type type)
+        public object Resolve(Type type, object[] args = null)
         {
             return Instance;
         }
 
-        public T Resolve<T>()
+        public T Resolve<T>(object[] args = null)
         {
             return (T)Instance;
         }

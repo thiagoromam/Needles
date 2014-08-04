@@ -13,7 +13,7 @@ namespace Needles.Tests.Resolvers
 
             var resolver = new ServiceResolver<Connection>(connection);
 
-            var instance = resolver.Resolve();
+            var instance = resolver.Resolve(null);
 
             Assert.AreEqual(instance, connection);
         }
@@ -23,8 +23,8 @@ namespace Needles.Tests.Resolvers
         {
             var resolver = new ServiceResolver<Connection>(new Connection());
 
-            var instance1 = resolver.Resolve();
-            var instance2 = resolver.Resolve();
+            var instance1 = resolver.Resolve(null);
+            var instance2 = resolver.Resolve(null);
 
             Assert.AreEqual(instance1, instance2);
         }
@@ -34,8 +34,8 @@ namespace Needles.Tests.Resolvers
         {
             var resolver = new ServiceResolver<Connection>(new ServiceResolver<Connection>(new Connection()));
 
-            var instance1 = resolver.Resolve();
-            var instance2 = resolver.Resolve();
+            var instance1 = resolver.Resolve(null);
+            var instance2 = resolver.Resolve(null);
 
             Assert.AreEqual(instance1, instance2);
         }

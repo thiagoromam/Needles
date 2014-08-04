@@ -13,7 +13,7 @@ namespace Needles.Resolvers
             _factory = factory;
         }
 
-        public T Resolve()
+        public T Resolve(object[] args)
         {
             return _factory(_container);
         }

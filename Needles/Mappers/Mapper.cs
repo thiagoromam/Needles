@@ -1,5 +1,6 @@
 ﻿using System;
 using Needles.Resolvers;
+using Needles.Resolvers.LazyResolvers;
 
 namespace Needles.Mappers
 {
@@ -32,13 +33,13 @@ namespace Needles.Mappers
             return this;
         }
 
-        object IMapping.Resolve()
+        object IMapping.Resolve(object[] args)
         {
-            return _resolver.Resolve();
+            return _resolver.Resolve(args);
         }
-        T IMapping<T>.Resolve()
+        T IMapping<T>.Resolve(object[] args)
         {
-            return _resolver.Resolve();
+            return _resolver.Resolve(args);
         }
 
         void IMappingResult.AsService()

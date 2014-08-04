@@ -16,11 +16,11 @@
             _resolver = resolver;
         }
 
-        public T Resolve()
+        public T Resolve(object[] args)
         {
             if (!_instanceCreated)
             {
-                _instance = _resolver.Resolve();
+                _instance = _resolver.Resolve(args);
                 _instanceCreated = true;
             }
 

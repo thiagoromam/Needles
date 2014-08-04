@@ -12,7 +12,7 @@ namespace Needles.Tests.Resolvers
         {
             var resolver = new FuncResolver<Connection>(new ContainerMock(), c => new Connection());
 
-            var instance = resolver.Resolve();
+            var instance = resolver.Resolve(null);
 
             Assert.IsNotNull(instance);
         }
