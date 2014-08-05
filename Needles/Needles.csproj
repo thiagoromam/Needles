@@ -50,7 +50,7 @@
     <Compile Include="Mappers\IMapping.cs" />
     <Compile Include="Mappers\IMappingResult.cs" />
     <Compile Include="Mappers\Mapper.cs" />
-    <Compile Include="Parameters\ArgumentsValidation.cs" />
+    <Compile Include="Parameters\ManualParametersValidation.cs" />
     <Compile Include="Parameters\Parameter.cs" />
     <Compile Include="Parameters\ParameterCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

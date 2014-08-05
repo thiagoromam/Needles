@@ -4,11 +4,10 @@
 
     public class Database : IDatabase
     {
-        // ReSharper disable once NotAccessedField.Local
-        private readonly IConnection _connection;
+        public readonly IConnection Connection;
         public Database(IConnection connection)
         {
-            _connection = connection;
+            Connection = connection;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Needles.Parameters
             _parameters = parameters.Where(p => p.Manual).ToArray();
         }
 
-        public void Validate(object[] args)
+        public void Validate(params object[] args)
         {
             var hasArgs = !args.IsNullOrEmpty();
 
@@ -43,10 +43,13 @@ namespace Needles.Parameters
         {
             for (var i = 0; i < _parameters.Length; i++)
             {
-                var parameter = _parameters[i];
-                var arg = args[i];
+                var parameterType = _parameters[i].Type;
+                var argType = args[i].GetType();
 
-                if (arg.GetType() != parameter.Type)
+                if (argType == parameterType)
+                    continue;
+
+                if (!parameterType.IsAssignableFrom(argType))
                     return false;
             }
 

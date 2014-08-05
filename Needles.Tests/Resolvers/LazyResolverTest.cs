@@ -65,5 +65,17 @@ namespace Needles.Tests.Resolvers
             Assert.AreEqual(product.Number2, 2);
             Assert.AreEqual(product.Name, "test");
         }
+
+        [TestCase(typeof(Geolocator), typeof(GlobalMap))]
+        [TestCase(typeof(GeolocatorLocal), typeof(LocalMap))]
+        [TestCase(typeof(GeolocatorLocal), typeof(Connection), ExpectedException = typeof(ResolveWithInvalidParametersSequenceException))]
+        public void ResolveWithArgsTest2(Type type1, Type type2)
+        {
+            var resolver = new LazyResolver<Location>(new ContainerMock());
+            
+            var instance = resolver.Resolve(Activator.CreateInstance(type1), Activator.CreateInstance(type2));
+
+            Assert.IsNotNull(instance);
+        }
     }
 }

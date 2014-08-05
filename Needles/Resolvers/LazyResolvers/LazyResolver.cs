@@ -5,12 +5,12 @@ namespace Needles.Resolvers.LazyResolvers
     internal class LazyResolver<T> : IResolver<T>
     {
         private readonly IResolver<T> _resovler;
-        private readonly ManualParametersValidation<T> _argumentsValidation;
+        private readonly ManualParametersValidation<T> _manualParametersValidation;
 
         public LazyResolver(IContainer container)
         {
             var parameters = new ParameterCollection<T>(container);
-            _argumentsValidation = new ManualParametersValidation<T>(parameters);
+            _manualParametersValidation = new ManualParametersValidation<T>(parameters);
 
             if (parameters.Count > 0)
                 _resovler = new ParametrizedLazyResolver<T>(parameters);
@@ -20,7 +20,7 @@ namespace Needles.Resolvers.LazyResolvers
 
         public T Resolve(params object[] args)
         {
-            _argumentsValidation.Validate(args);
+            _manualParametersValidation.Validate(args);
 
             return _resovler.Resolve(args);
         }
