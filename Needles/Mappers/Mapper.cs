@@ -4,7 +4,7 @@ using Needles.Resolvers.LazyResolvers;
 
 namespace Needles.Mappers
 {
-    internal class Mapper<T> : IMapper<T>, IMapping<T>, IMappingResult
+    internal class Mapper<T> : IMapper<T>, IMapping, IMappingResult
     {
         private readonly IContainer _container;
         private IResolver<T> _resolver;
@@ -34,10 +34,6 @@ namespace Needles.Mappers
         }
 
         object IMapping.Resolve(object[] args)
-        {
-            return _resolver.Resolve(args);
-        }
-        T IMapping<T>.Resolve(object[] args)
         {
             return _resolver.Resolve(args);
         }

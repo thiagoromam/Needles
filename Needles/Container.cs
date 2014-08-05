@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Needles.Exceptions;
 using Needles.Mappers;
 
 namespace Needles
@@ -31,11 +32,14 @@ namespace Needles
 
         public T Resolve<T>(params object[] args)
         {
-            return ((IMapping<T>)_mappers[typeof(T)]).Resolve(args);
+            return (T)Resolve(typeof(T), args);
         }
 
         public object Resolve(Type type, params object[] args)
         {
+            if (!_mappers.ContainsKey(type))
+                throw new TypeNotMappedException();
+
             return ((IMapping)_mappers[type]).Resolve(args);
         }
     }

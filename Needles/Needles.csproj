@@ -44,6 +44,7 @@
     <Compile Include="Exceptions\ResolveExceptions\ResolveWithMoreParametersException.cs" />
     <Compile Include="Exceptions\ResolveExceptions\ResolveWithoutParametersException.cs" />
     <Compile Include="Exceptions\ResolveExceptions\ResolveWithParametersException.cs" />
+    <Compile Include="Exceptions\TypeNotMappedException.cs" />
     <Compile Include="Helpers\EnumerableHelper.cs" />
     <Compile Include="Mappers\IMapper.cs" />
     <Compile Include="Mappers\IMapping.cs" />

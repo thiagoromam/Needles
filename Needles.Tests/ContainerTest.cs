@@ -1,4 +1,6 @@
-﻿using Needles.Tests.Types;
+﻿using System;
+using Needles.Exceptions;
+using Needles.Tests.Types;
 using NUnit.Framework;
 
 namespace Needles.Tests
@@ -33,15 +35,16 @@ namespace Needles.Tests
             Assert.AreNotEqual(instance1, instance2);
         }
 
-        [Test]
-        public void ResolveByTypeTest()
+        [TestCase(typeof(IConnection))]
+        [TestCase(typeof(IDatabase), ExpectedException = typeof(TypeNotMappedException))]
+        public void ResolveByTypeTest(Type type)
         {
             var container = new Container();
             container.Map<IConnection>().To<Connection>().AsService();
 
-            var instance = container.Resolve(typeof (IConnection));
+            var instance = container.Resolve(type);
 
-            Assert.IsInstanceOf<IConnection>(instance);
+            Assert.IsInstanceOf(type, instance);
         }
     }
 }
