@@ -1,4 +1,5 @@
-﻿using Needles.Exceptions.ResolveExceptions;
+﻿using System;
+using Needles.Exceptions.ResolveExceptions;
 using Needles.Resolvers.LazyResolvers;
 using Needles.Tests.Mocks;
 using Needles.Tests.Types;
@@ -18,12 +19,13 @@ namespace Needles.Tests.Resolvers
             _connectionResolver = new LazyResolver<Connection>(_container);
         }
 
-        [Test]
-        public void ResolveInstanceTest()
+        [TestCase(typeof(Connection), null)]
+        [TestCase(typeof(Connection), 1, ExpectedException = typeof(ResolveWithParametersException))]
+        public void ResolveInstanceTest(Type type, int? arg)
         {
-            var instance = _connectionResolver.Resolve();
+            var instance = _connectionResolver.Resolve(arg.HasValue ? new object[] { arg.Value } : null);
 
-            Assert.AreEqual(instance.GetType(), typeof(Connection));
+            Assert.IsInstanceOf(type, instance);
         }
 
         [Test]
