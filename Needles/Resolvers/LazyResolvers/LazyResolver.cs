@@ -16,7 +16,7 @@ namespace Needles.Resolvers.LazyResolvers
                 _resovler = new SimpleLazyResolver<T>();
         }
 
-        public T Resolve(object[] args)
+        public T Resolve(params object[] args)
         {
             return _resovler.Resolve(args);
         }

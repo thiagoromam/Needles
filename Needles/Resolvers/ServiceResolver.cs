@@ -16,7 +16,7 @@
             _resolver = resolver;
         }
 
-        public T Resolve(object[] args)
+        public T Resolve(params object[] args)
         {
             if (!_instanceCreated)
             {

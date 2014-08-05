@@ -1,4 +1,6 @@
 ﻿using System;
+using Needles.Exceptions.ResolveExceptions;
+using Needles.Helpers;
 
 namespace Needles.Resolvers
 {
@@ -13,8 +15,11 @@ namespace Needles.Resolvers
             _factory = factory;
         }
 
-        public T Resolve(object[] args)
+        public T Resolve(params object[] args)
         {
+            if (!args.IsNullOrEmpty())
+                throw new ResolveWithParametersException();
+
             return _factory(_container);
         }
     }

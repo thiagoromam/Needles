@@ -35,15 +35,21 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <Folder Include="Exceptions\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\ManualAttribute.cs" />
     <Compile Include="Container.cs" />
+    <Compile Include="Exceptions\ResolveExceptions\ResolveWithInvalidParametersSequenceException.cs" />
+    <Compile Include="Exceptions\ResolveExceptions\ResolveWithLessParametersException.cs" />
+    <Compile Include="Exceptions\ResolveExceptions\ResolveWithMoreParametersException.cs" />
+    <Compile Include="Exceptions\ResolveExceptions\ResolveWithoutParametersException.cs" />
+    <Compile Include="Exceptions\ResolveExceptions\ResolveWithParametersException.cs" />
+    <Compile Include="Helpers\EnumerableHelper.cs" />
     <Compile Include="Mappers\IMapper.cs" />
     <Compile Include="Mappers\IMapping.cs" />
     <Compile Include="Mappers\IMappingResult.cs" />
     <Compile Include="Mappers\Mapper.cs" />
+    <Compile Include="Parameters\ArgumentsValidation.cs" />
     <Compile Include="Parameters\Parameter.cs" />
     <Compile Include="Parameters\ParameterCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

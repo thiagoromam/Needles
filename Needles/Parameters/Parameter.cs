@@ -4,7 +4,7 @@ using Needles.Attributes;
 
 namespace Needles.Parameters
 {
-    public class Parameter
+    internal class Parameter
     {
         private readonly IContainer _container;
         public readonly Type Type;

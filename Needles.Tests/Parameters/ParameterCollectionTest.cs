@@ -1,4 +1,5 @@
-﻿using Needles.Parameters;
+﻿using System.Collections;
+using Needles.Parameters;
 using Needles.Tests.Mocks;
 using Needles.Tests.Types;
 using NUnit.Framework;
@@ -13,6 +14,10 @@ namespace Needles.Tests.Parameters
             var parameters = new ParameterCollection<Product>(new ContainerMock());
 
             Assert.AreEqual(parameters.Count, 4);
+
+            foreach (var parameter in (IEnumerable)parameters)
+                Assert.IsInstanceOf<Parameter>(parameter);
+
             Assert.AreEqual(parameters[0].Type, typeof(int));
             Assert.AreEqual(parameters[1].Type, typeof(ProductData));
             Assert.AreEqual(parameters[2].Type, typeof(int));
