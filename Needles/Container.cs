@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Needles.Exceptions;
+using Needles.Factories;
 using Needles.Mappers;
 
 namespace Needles
@@ -11,13 +12,21 @@ namespace Needles
         T Resolve<T>(params object[] args);
     }
 
-    public class Container : IContainer
+    public interface IFullContainer : IContainer
     {
+        IMapper<T> Map<T>();
+    }
+
+    public class Container : IFullContainer
+    {
+        private readonly IMapperFactory _mapperFactory;
         private readonly Dictionary<Type, IMapper> _mappers;
 
-        public Container()
+        internal Container(IMapperFactory mapperFactory, IResolverFactory resolverFactory)
         {
+            _mapperFactory = mapperFactory;
             _mappers = new Dictionary<Type, IMapper>();
+            resolverFactory.Container = this;
         }
 
         public IMapper<T> Map<T>()
@@ -25,7 +34,7 @@ namespace Needles
             var type = typeof(T);
 
             if (!_mappers.ContainsKey(type))
-                _mappers[type] = new Mapper<T>(this);
+                _mappers[type] = _mapperFactory.Create<T>();
 
             return (IMapper<T>)_mappers[type];
         }
@@ -41,6 +50,14 @@ namespace Needles
                 throw new TypeNotMappedException();
 
             return ((IMapping)_mappers[type]).Resolve(args);
+        }
+
+        public static IFullContainer Create()
+        {
+            var resolverFactory = new ResolverFactory(new ParameterCollectionFactory(new ParameterFactory()));
+            var mapperFactory = new MapperFactory(resolverFactory);
+
+            return new Container(mapperFactory, resolverFactory);
         }
     }
 }

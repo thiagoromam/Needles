@@ -1,26 +1,26 @@
 ﻿using System;
+using Needles.Factories;
 using Needles.Resolvers;
-using Needles.Resolvers.LazyResolvers;
 
 namespace Needles.Mappers
 {
     internal class Mapper<T> : IMapper<T>, IMapping, IMappingResult
     {
-        private readonly IContainer _container;
+        private readonly IResolverFactory _resolverFactory;
         private IResolver<T> _resolver;
 
-        public Mapper(IContainer container)
+        public Mapper(IResolverFactory resolverFactory)
         {
-            _container = container;
+            _resolverFactory = resolverFactory;
         }
 
         void IMapper<T>.To(T instance)
         {
-            _resolver = new ServiceResolver<T>(instance);
+            _resolver = _resolverFactory.CreateServiceResolver(instance);
         }
         IMappingResult IMapper<T>.To<TInstance>()
         {
-            _resolver = (IResolver<T>)new LazyResolver<TInstance>(_container);
+            _resolver = (IResolver<T>)_resolverFactory.CreateLazyResolver<TInstance>();
             return this;
         }
         IMappingResult IMapper<T>.ToSelf()
@@ -29,7 +29,7 @@ namespace Needles.Mappers
         }
         IMappingResult IMapper<T>.To(Func<IContainer, T> factory)
         {
-            _resolver = new FuncResolver<T>(_container, factory);
+            _resolver = _resolverFactory.CreateFuncResolver(factory);
             return this;
         }
 
@@ -40,7 +40,7 @@ namespace Needles.Mappers
 
         void IMappingResult.AsService()
         {
-            _resolver = new ServiceResolver<T>(_resolver);
+            _resolver = _resolverFactory.CreateServiceResolver(_resolver);
         }
     }
 }

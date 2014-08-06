@@ -4,12 +4,17 @@ using Needles.Helpers;
 
 namespace Needles.Parameters
 {
-    internal class ManualParametersValidation<T>
+    internal interface IArgumentsValidation
     {
-        private readonly Parameter[] _parameters;
+        void Validate(params object[] args);
+    }
+
+    internal class ArgumentsValidation : IArgumentsValidation
+    {
+        private readonly IParameter[] _parameters;
 
         // ReSharper disable once ParameterTypeCanBeEnumerable.Local
-        public ManualParametersValidation(ParameterCollection<T> parameters)
+        public ArgumentsValidation(IParameterCollection parameters)
         {
             _parameters = parameters.Where(p => p.Manual).ToArray();
         }
@@ -45,9 +50,6 @@ namespace Needles.Parameters
             {
                 var parameterType = _parameters[i].Type;
                 var argType = args[i].GetType();
-
-                if (argType == parameterType)
-                    continue;
 
                 if (!parameterType.IsAssignableFrom(argType))
                     return false;

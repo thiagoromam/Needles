@@ -4,7 +4,11 @@ using Needles.Helpers;
 
 namespace Needles.Resolvers
 {
-    internal class FuncResolver<T> : IResolver<T>
+    internal interface IFuncResolver<out T> : IResolver<T>
+    {
+    }
+
+    internal class FuncResolver<T> : IFuncResolver<T>
     {
         private readonly IContainer _container;
         private readonly Func<IContainer, T> _factory;

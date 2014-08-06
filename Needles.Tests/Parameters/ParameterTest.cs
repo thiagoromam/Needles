@@ -1,6 +1,5 @@
 ﻿using System;
 using Needles.Parameters;
-using Needles.Tests.Mocks;
 using Needles.Tests.Types;
 using NUnit.Framework;
 
@@ -17,23 +16,10 @@ namespace Needles.Tests.Parameters
         {
             var info = typeof(Product).GetConstructors()[0].GetParameters()[parameterIndex];
 
-            var parameter = new Parameter(info, new ContainerMock());
+            var parameter = new Parameter(info);
 
             Assert.AreEqual(parameter.Type, type);
             Assert.AreEqual(parameter.Manual, manual);
-        }
-
-        [Test]
-        public void ResolveTest()
-        {
-            var info = typeof(Database).GetConstructors()[0].GetParameters()[0];
-
-            var container = new ContainerMock(new Connection());
-            var parameter = new Parameter(info, container);
-
-            var instance = parameter.Resolve();
-
-            Assert.AreEqual(instance, container.Instance);
         }
     }
 }

@@ -1,6 +1,10 @@
 ﻿namespace Needles.Resolvers
 {
-    internal class ServiceResolver<T> : IResolver<T>
+    internal interface IServiceResolver<out T> : IResolver<T>
+    {
+    }
+
+    internal class ServiceResolver<T> : IServiceResolver<T>
     {
         private T _instance;
         private bool _instanceCreated;

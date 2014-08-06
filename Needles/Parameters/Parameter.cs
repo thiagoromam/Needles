@@ -4,22 +4,21 @@ using Needles.Attributes;
 
 namespace Needles.Parameters
 {
-    internal class Parameter
+    internal interface IParameter
     {
-        private readonly IContainer _container;
-        public readonly Type Type;
-        public readonly bool Manual;
+        Type Type { get; }
+        bool Manual { get; }
+    }
 
-        public Parameter(ParameterInfo info, IContainer container)
+    internal class Parameter : IParameter
+    {
+        public Parameter(ParameterInfo info)
         {
-            _container = container;
             Type = info.ParameterType;
             Manual = info.IsDefined(typeof(ManualAttribute), false);
         }
 
-        public object Resolve()
-        {
-            return _container.Resolve(Type);
-        } 
+        public Type Type { get; private set; }
+        public bool Manual { get; private set; }
     }
 }

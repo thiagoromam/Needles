@@ -2,17 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Needles.Factories;
 
 namespace Needles.Parameters
 {
-    internal class ParameterCollection<T> : IEnumerable<Parameter>
+    internal interface IParameterCollection : IEnumerable<IParameter>
     {
-        private readonly IContainer _container;
-        private readonly List<Parameter> _parameters;
+        int Count { get; }
+        IParameter this[int index] { get; }
+    }
 
-        public ParameterCollection(IContainer container)
+    internal class ParameterCollection<T> : IParameterCollection
+    {
+        private readonly IParameterFactory _parameterFactory;
+        private readonly List<IParameter> _parameters;
+
+        public ParameterCollection(IParameterFactory parameterFactory)
         {
-            _container = container;
+            _parameterFactory = parameterFactory;
             _parameters = GetConstructorParameters();
         }
 
@@ -20,20 +27,20 @@ namespace Needles.Parameters
         {
             get { return _parameters.Count; }
         }
-        public Parameter this[int index]
+        public IParameter this[int index]
         {
             get { return _parameters[index]; }
         }
 
-        private List<Parameter> GetConstructorParameters()
+        private List<IParameter> GetConstructorParameters()
         {
             IEnumerable<ParameterInfo> parameters = typeof(T).GetConstructors()[0].GetParameters();
             parameters = parameters.OrderBy(p => p.Position);
 
-            return parameters.Select(p => new Parameter(p, _container)).ToList();
+            return parameters.Select(p => _parameterFactory.Create(p)).ToList();
         }
 
-        public IEnumerator<Parameter> GetEnumerator()
+        public IEnumerator<IParameter> GetEnumerator()
         {
             return _parameters.GetEnumerator();
         }

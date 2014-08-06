@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Needles.Factories;
 using Needles.Parameters;
 using Needles.Tests.Mocks;
 using Needles.Tests.Types;
@@ -11,12 +12,12 @@ namespace Needles.Tests.Parameters
         [Test]
         public void CreateTest()
         {
-            var parameters = new ParameterCollection<Product>(new ContainerMock());
+            var parameters = new ParameterCollection<Product>(new ParameterFactory());
 
             Assert.AreEqual(parameters.Count, 4);
 
             foreach (var parameter in (IEnumerable)parameters)
-                Assert.IsInstanceOf<Parameter>(parameter);
+                Assert.IsNotNull(parameter);
 
             Assert.AreEqual(parameters[0].Type, typeof(int));
             Assert.AreEqual(parameters[1].Type, typeof(ProductData));
