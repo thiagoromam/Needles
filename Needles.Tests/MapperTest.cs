@@ -1,58 +1,78 @@
-﻿//using Needles.Mappers;
-//using Needles.Tests.Mocks;
-//using Needles.Tests.Types;
-//using NUnit.Framework;
+﻿using System;
+using Needles.Mappers;
+using Needles.Tests.Mocks;
+using Needles.Tests.Types;
+using NUnit.Framework;
 
-//namespace Needles.Tests
-//{
-//    public class MapperTest
-//    {
-//        [Test]
-//        public void MapToInstanceTest()
-//        {
-//            var connection = new Connection();
+namespace Needles.Tests
+{
+    public class MapperTest
+    {
+        private ResolverFactoryMock _factory;
+        private IMapper<IConnection> _mapper;
 
-//            IMapper<Connection> mapper = new Mapper<Connection>(new ContainerMock());
-//            mapper.To(connection);
+        [SetUp]
+        public void Setup()
+        {
+            _factory = new ResolverFactoryMock();
+            _mapper = new Mapper<IConnection>(_factory);
+        }
 
-//            var instance = ((IMapping)mapper).Resolve();
+        [Test]
+        public void MapToInstanceTest()
+        {
+            var connection = new Connection();
+            _mapper.To(connection);
 
-//            Assert.AreEqual(instance, connection);
-//        }
+            Assert.IsInstanceOf<ServiceResolverMock<IConnection>>(_factory.Resolver);
+        }
 
-//        [Test]
-//        public void MapToFunctionTest()
-//        {
-//            IMapper<Connection> mapper = new Mapper<Connection>(new ContainerMock());
-//            mapper.To(c => new Connection());
+        [Test]
+        public void MapToFunctionTest()
+        {
+            _mapper.To((Func<IResolverContainer, IConnection>)null);
 
-//            var instance = ((IMapping)mapper).Resolve();
+            Assert.IsInstanceOf<FuncResolverMock<IConnection>>(_factory.Resolver);
+        }
 
-//            Assert.IsNotNull(instance);
-//        }
+        [Test]
+        public void MapToTypeTest()
+        {
+            _mapper.To<Connection>();
 
-//        [Test]
-//        public void MapServiceTest()
-//        {
-//            IMapper<IConnection> mapper = new Mapper<IConnection>(new ContainerMock());
-//            mapper.To<Connection>().AsService();
+            Assert.IsInstanceOf<LazyResolverMock<Connection>>(_factory.Resolver);
+        }
 
-//            var instance1 = ((IMapping)mapper).Resolve();
-//            var instance2 = ((IMapping)mapper).Resolve();
+        [Test]
+        public void MapToSelfTest()
+        {
+            IMapper<Connection> mapper = new Mapper<Connection>(_factory);
+            mapper.ToSelf();
 
-//            Assert.AreEqual(instance1, instance2);
-//        }
+            Assert.IsInstanceOf<LazyResolverMock<Connection>>(_factory.Resolver);
+        }
 
-//        [Test]
-//        public void MapToSelfTest()
-//        {
-//            IMapper<Connection> mapper = new Mapper<Connection>(new ContainerMock());
-//            mapper.ToSelf();
+        [Test]
+        public void MapServiceTest()
+        {
+            var result = _mapper.To<Connection>();
 
-//            var instance1 = ((IMapping)mapper).Resolve();
-//            var instance2 = ((IMapping)mapper).Resolve();
+            Assert.IsInstanceOf<LazyResolverMock<Connection>>(_factory.Resolver);
 
-//            Assert.AreNotEqual(instance1, instance2);
-//        }
-//    }
-//}
+            result.AsService();
+
+            Assert.IsInstanceOf<ServiceResolverMock<IConnection>>(_factory.Resolver);
+        }
+
+        [Test]
+        public void ResolveTest()
+        {
+            _mapper.To<Connection>().AsService();
+            _factory.Resolver.Instance = new Connection();
+
+            var instance = ((IMapping)_mapper).Resolve();
+
+            Assert.AreEqual(instance, _factory.Resolver.Instance);
+        }
+    }
+}

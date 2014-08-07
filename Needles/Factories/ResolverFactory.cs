@@ -8,15 +8,18 @@ namespace Needles.Factories
 {
     internal interface IResolverFactory
     {
-        IContainer Container { set; }
-
         ILazyResolver<T> CreateLazyResolver<T>();
-        IFuncResolver<T> CreateFuncResolver<T>(Func<IContainer, T> factory);
+        IFuncResolver<T> CreateFuncResolver<T>(Func<IResolverContainer, T> factory);
         IServiceResolver<T> CreateServiceResolver<T>(T instance);
         IServiceResolver<T> CreateServiceResolver<T>(IResolver<T> resolver); 
     }
 
-    internal class ResolverFactory : IResolverFactory
+    internal interface IResolverFactoryInitializer
+    {
+        IResolverContainer Container { set; }
+    }
+    
+    internal class ResolverFactory : IResolverFactoryInitializer, IResolverFactory
     {
         private readonly IParameterCollectionFactory _parameterCollectionFactory;
 
@@ -25,7 +28,7 @@ namespace Needles.Factories
             _parameterCollectionFactory = parameterCollectionFactory;
         }
 
-        public IContainer Container { set; private get; }
+        public IResolverContainer Container { set; private get; }
 
         public ILazyResolver<T> CreateLazyResolver<T>()
         {
@@ -37,7 +40,7 @@ namespace Needles.Factories
             return new SimpleLazyResolver<T>();
         }
 
-        public IFuncResolver<T> CreateFuncResolver<T>(Func<IContainer, T> factory)
+        public IFuncResolver<T> CreateFuncResolver<T>(Func<IResolverContainer, T> factory)
         {
             return new FuncResolver<T>(Container, factory);
         }

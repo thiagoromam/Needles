@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using Needles.Factories;
 using Needles.Parameters;
-using Needles.Tests.Mocks;
 using Needles.Tests.Types;
 using NUnit.Framework;
 
@@ -23,6 +22,11 @@ namespace Needles.Tests.Parameters
             Assert.AreEqual(parameters[1].Type, typeof(ProductData));
             Assert.AreEqual(parameters[2].Type, typeof(int));
             Assert.AreEqual(parameters[3].Type, typeof(string));
+
+            Assert.IsTrue(parameters[0].Manual);
+            Assert.IsFalse(parameters[1].Manual);
+            Assert.IsTrue(parameters[2].Manual);
+            Assert.IsTrue(parameters[3].Manual);
         }
     }
 }

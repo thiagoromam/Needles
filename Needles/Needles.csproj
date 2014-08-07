@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="Attributes\ManualAttribute.cs" />
     <Compile Include="Container.cs" />
+    <Compile Include="NeedlesContainer.cs" />
     <Compile Include="Exceptions\ResolveExceptions\ResolveWithInvalidParametersSequenceException.cs" />
     <Compile Include="Exceptions\ResolveExceptions\ResolveWithLessParametersException.cs" />
     <Compile Include="Exceptions\ResolveExceptions\ResolveWithMoreParametersException.cs" />

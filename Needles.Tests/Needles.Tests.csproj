@@ -71,9 +71,13 @@
     <Compile Include="Mocks\ArgumentsResolverMock.cs" />
     <Compile Include="Mocks\ContainerMock.cs" />
     <Compile Include="Mocks\ManualParametersValidationMock.cs" />
+    <Compile Include="Mocks\MapperFactoryMock.cs" />
+    <Compile Include="Mocks\MapperMock.cs" />
     <Compile Include="Mocks\ParameterCollectionMock.cs" />
     <Compile Include="Mocks\ParameterMock.cs" />
-    <Compile Include="MockTests\ContainerMockTest.cs" />
+    <Compile Include="Mocks\ResolverFactoryMock.cs" />
+    <Compile Include="Mocks\ResolverMock.cs" />
+    <Compile Include="ExternalContainerTest.cs" />
     <Compile Include="Parameters\ArgumentsResolverTest.cs" />
     <Compile Include="Parameters\ArgumentsValidationTest.cs" />
     <Compile Include="Parameters\ParameterCollectionTest.cs" />

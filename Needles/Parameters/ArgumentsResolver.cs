@@ -9,9 +9,9 @@
     {
         private readonly IParameterCollection _parameters;
         private readonly IArgumentsValidation _argumentsvalidation;
-        private readonly IContainer _container;
+        private readonly IResolverContainer _container;
 
-        public ArgumentsResolver(IParameterCollection parameters, IArgumentsValidation argumentsvalidation, IContainer container)
+        public ArgumentsResolver(IParameterCollection parameters, IArgumentsValidation argumentsvalidation, IResolverContainer container)
         {
             _parameters = parameters;
             _argumentsvalidation = argumentsvalidation;

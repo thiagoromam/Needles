@@ -1,50 +1,68 @@
-﻿//using System;
-//using Needles.Exceptions;
-//using Needles.Tests.Types;
-//using NUnit.Framework;
+﻿using System;
+using Needles.Exceptions;
+using Needles.Tests.Mocks;
+using Needles.Tests.Types;
+using NUnit.Framework;
 
-//namespace Needles.Tests
-//{
-//    public class ContainerTest
-//    {
-//        [Test]
-//        public void MapTest()
-//        {
-//            var connection = new Connection();
+namespace Needles.Tests
+{
+    public class ContainerTest
+    {
+        private ResolverFactoryMock _resolverFactory;
+        private MapperFactoryMock _mapperFactory;
 
-//            var container = new Container();
-//            container.Map<IConnection>().To(connection);
+        [SetUp]
+        public void Setup()
+        {
+            _resolverFactory = new ResolverFactoryMock();
+            _mapperFactory = new MapperFactoryMock();
+        }
 
-//            var instance = container.Resolve<IConnection>();
+        [Test]
+        public void CreateTest()
+        {
+            var container = new Container(_mapperFactory, _resolverFactory);
 
-//            Assert.AreEqual(instance, connection);
-//        }
+            Assert.AreEqual(_resolverFactory.Container, container);
+        }
 
-//        [Test]
-//        public void MapTwoTimesTest()
-//        {
-//            var container = new Container();
-//            container.Map<IConnection>().To<Connection>().AsService();
+        [Test]
+        public void MapTest()
+        {
+            var container = new Container(_mapperFactory, _resolverFactory);
 
-//            var instance1 = container.Resolve<IConnection>();
+            var mapper1 = container.Map<Connection>();
+            var mapper2 = container.Map<Connection>();
 
-//            container.Map<IConnection>().To<Connection>().AsService();
+            Assert.AreEqual(mapper1, _mapperFactory.Mapper);
+            Assert.AreEqual(mapper1, mapper2);
+        }
 
-//            var instance2 = container.Resolve<IConnection>();
+        [Test]
+        public void ResolveTest()
+        {
+            var container = new Container(_mapperFactory, _resolverFactory);
 
-//            Assert.AreNotEqual(instance1, instance2);
-//        }
+            var mapper = (MapperMock<IConnection>)container.Map<IConnection>();
+            mapper.Instance = new Connection();
 
-//        [TestCase(typeof(IConnection))]
-//        [TestCase(typeof(IDatabase), ExpectedException = typeof(TypeNotMappedException))]
-//        public void ResolveByTypeTest(Type type)
-//        {
-//            var container = new Container();
-//            container.Map<IConnection>().To<Connection>().AsService();
+            var instance = container.Resolve<IConnection>();
 
-//            var instance = container.Resolve(type);
+            Assert.AreEqual(instance, mapper.Instance);
+        }
 
-//            Assert.IsInstanceOf(type, instance);
-//        }
-//    }
-//}
+        [TestCase(typeof(IConnection))]
+        [TestCase(typeof(Connection), ExpectedException = typeof(TypeNotMappedException))]
+        public void ResolveByTypeTest(Type type)
+        {
+            var container = new Container(_mapperFactory, _resolverFactory);
+
+            var mapper = (MapperMock<IConnection>)container.Map<IConnection>();
+            mapper.Instance = new Connection();
+
+            var instance = container.Resolve(type);
+
+            Assert.AreEqual(instance, mapper.Instance);
+        }
+    }
+}

@@ -6,23 +6,23 @@ using Needles.Mappers;
 
 namespace Needles
 {
-    public interface IContainer
+    public interface IResolverContainer
     {
         object Resolve(Type type, params object[] args);
         T Resolve<T>(params object[] args);
     }
 
-    public interface IFullContainer : IContainer
+    public interface IContainer : IResolverContainer
     {
         IMapper<T> Map<T>();
     }
 
-    public class Container : IFullContainer
+    internal class Container : IContainer
     {
         private readonly IMapperFactory _mapperFactory;
         private readonly Dictionary<Type, IMapper> _mappers;
 
-        internal Container(IMapperFactory mapperFactory, IResolverFactory resolverFactory)
+        internal Container(IMapperFactory mapperFactory, IResolverFactoryInitializer resolverFactory)
         {
             _mapperFactory = mapperFactory;
             _mappers = new Dictionary<Type, IMapper>();
@@ -50,14 +50,6 @@ namespace Needles
                 throw new TypeNotMappedException();
 
             return ((IMapping)_mappers[type]).Resolve(args);
-        }
-
-        public static IFullContainer Create()
-        {
-            var resolverFactory = new ResolverFactory(new ParameterCollectionFactory(new ParameterFactory()));
-            var mapperFactory = new MapperFactory(resolverFactory);
-
-            return new Container(mapperFactory, resolverFactory);
         }
     }
 }

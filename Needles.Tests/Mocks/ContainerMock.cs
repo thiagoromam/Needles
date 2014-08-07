@@ -2,7 +2,7 @@
 
 namespace Needles.Tests.Mocks
 {
-    public class ContainerMock : IContainer
+    public class ContainerMock : IResolverContainer
     {
         public object Instance { get; set; }
 

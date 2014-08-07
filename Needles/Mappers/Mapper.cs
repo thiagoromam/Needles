@@ -27,7 +27,7 @@ namespace Needles.Mappers
         {
             return ((IMapper<T>)this).To<T>();
         }
-        IMappingResult IMapper<T>.To(Func<IContainer, T> factory)
+        IMappingResult IMapper<T>.To(Func<IResolverContainer, T> factory)
         {
             _resolver = _resolverFactory.CreateFuncResolver(factory);
             return this;

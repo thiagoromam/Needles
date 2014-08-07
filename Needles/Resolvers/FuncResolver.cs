@@ -10,10 +10,10 @@ namespace Needles.Resolvers
 
     internal class FuncResolver<T> : IFuncResolver<T>
     {
-        private readonly IContainer _container;
-        private readonly Func<IContainer, T> _factory;
+        private readonly IResolverContainer _container;
+        private readonly Func<IResolverContainer, T> _factory;
 
-        public FuncResolver(IContainer container, Func<IContainer, T> factory)
+        public FuncResolver(IResolverContainer container, Func<IResolverContainer, T> factory)
         {
             _container = container;
             _factory = factory;
