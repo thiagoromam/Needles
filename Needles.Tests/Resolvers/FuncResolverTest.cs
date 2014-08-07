@@ -9,7 +9,7 @@ namespace Needles.Tests.Resolvers
     public class FuncResolverTest
     {
         [TestCase]
-        [TestCase(1, 2, ExpectedException = typeof(ResolveWithParametersException))]
+        [TestCase(1, 2, ExpectedException = typeof(ResolveWithArgumentsException))]
         public void ResolveInstanceTest(params object[] args)
         {
             var resolver = new FuncResolver<Connection>(new ContainerMock(), c => new Connection());

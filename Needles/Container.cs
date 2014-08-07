@@ -47,7 +47,7 @@ namespace Needles
         public object Resolve(Type type, params object[] args)
         {
             if (!_mappers.ContainsKey(type))
-                throw new TypeNotMappedException();
+                throw new TypeNotMappedException(type);
 
             return ((IMapping)_mappers[type]).Resolve(args);
         }

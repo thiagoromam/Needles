@@ -41,10 +41,10 @@
     <Compile Include="Container.cs" />
     <Compile Include="NeedlesContainer.cs" />
     <Compile Include="Exceptions\ResolveExceptions\ResolveWithInvalidParametersSequenceException.cs" />
-    <Compile Include="Exceptions\ResolveExceptions\ResolveWithLessParametersException.cs" />
-    <Compile Include="Exceptions\ResolveExceptions\ResolveWithMoreParametersException.cs" />
-    <Compile Include="Exceptions\ResolveExceptions\ResolveWithoutParametersException.cs" />
-    <Compile Include="Exceptions\ResolveExceptions\ResolveWithParametersException.cs" />
+    <Compile Include="Exceptions\ResolveExceptions\ResolveWithLessArgumentsException.cs" />
+    <Compile Include="Exceptions\ResolveExceptions\ResolveWithMoreArgumentsException.cs" />
+    <Compile Include="Exceptions\ResolveExceptions\ResolveWithoutArgumentsException.cs" />
+    <Compile Include="Exceptions\ResolveExceptions\ResolveWithArgumentsException.cs" />
     <Compile Include="Exceptions\TypeNotMappedException.cs" />
     <Compile Include="Factories\MapperFactory.cs" />
     <Compile Include="Factories\ParameterCollectionFactory.cs" />

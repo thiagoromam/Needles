@@ -22,7 +22,7 @@ namespace Needles.Resolvers
         public T Resolve(params object[] args)
         {
             if (!args.IsNullOrEmpty())
-                throw new ResolveWithParametersException();
+                throw new ResolveWithArgumentsException(typeof(T), ResolveWithArgumentsExceptionType.ResolveDoesNotAcceptArguments);
 
             return _factory(_container);
         }

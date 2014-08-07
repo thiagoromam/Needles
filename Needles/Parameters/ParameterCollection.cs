@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -8,6 +9,7 @@ namespace Needles.Parameters
 {
     internal interface IParameterCollection : IEnumerable<IParameter>
     {
+        Type InstanceType { get; }
         int Count { get; }
         IParameter this[int index] { get; }
     }
@@ -23,6 +25,10 @@ namespace Needles.Parameters
             _parameters = GetConstructorParameters();
         }
 
+        public Type InstanceType
+        {
+            get { return typeof (T); }
+        }
         public int Count
         {
             get { return _parameters.Count; }

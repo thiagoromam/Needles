@@ -14,11 +14,11 @@ namespace Needles.Tests.Parameters
         [SetUp]
         public void Setup()
         {
-            _parameters = new ParameterCollectionMock();
+            _parameters = new ParameterCollectionMock { InstanceType = typeof(Connection) };
         }
 
         [TestCase(false)]
-        [TestCase(true, ExpectedException = typeof(ResolveWithoutParametersException))]
+        [TestCase(true, ExpectedException = typeof(ResolveWithoutArgumentsException))]
         public void ValidateWithoutParametersTest(bool manual)
         {
             _parameters.Parameters.Clear();
@@ -28,7 +28,7 @@ namespace Needles.Tests.Parameters
         }
 
         [TestCase(true)]
-        [TestCase(false, ExpectedException = typeof(ResolveWithParametersException))]
+        [TestCase(false, ExpectedException = typeof(ResolveWithArgumentsException))]
         public void ValidateWithParametersTest(bool manual)
         {
             _parameters.Parameters.Clear();
@@ -37,9 +37,9 @@ namespace Needles.Tests.Parameters
             ValidateTest(1);
         }
 
-        [TestCase(1, 2, ExpectedException = typeof(ResolveWithLessParametersException))]
+        [TestCase(1, 2, ExpectedException = typeof(ResolveWithLessArgumentsException))]
         [TestCase(1, 2, 3)]
-        [TestCase(1, 2, 3, 4, ExpectedException = typeof(ResolveWithMoreParametersException))]
+        [TestCase(1, 2, 3, 4, ExpectedException = typeof(ResolveWithMoreArgumentsException))]
         public void ValidateParametersCountTest(params object[] args)
         {
             _parameters.Parameters.Clear();

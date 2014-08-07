@@ -16,7 +16,7 @@ namespace Needles.Tests.Resolvers
         }
 
         [TestCase]
-        [TestCase(1, 2, ExpectedException = typeof(ResolveWithParametersException))]
+        [TestCase(1, 2, ExpectedException = typeof(ResolveWithArgumentsException))]
         public void ResolveTest(params object[] args)
         {
             Assert.IsNotNull(_resolver.Resolve(args));

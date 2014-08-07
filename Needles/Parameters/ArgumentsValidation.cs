@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Needles.Exceptions.ResolveExceptions;
 using Needles.Helpers;
 
@@ -11,44 +12,46 @@ namespace Needles.Parameters
 
     internal class ArgumentsValidation : IArgumentsValidation
     {
-        private readonly IParameter[] _parameters;
+        private readonly IParameter[] _manualParameters;
+        private readonly Type _instanceType;
 
         // ReSharper disable once ParameterTypeCanBeEnumerable.Local
         public ArgumentsValidation(IParameterCollection parameters)
         {
-            _parameters = parameters.Where(p => p.Manual).ToArray();
+            _instanceType = parameters.InstanceType;
+            _manualParameters = parameters.Where(p => p.Manual).ToArray();
         }
 
         public void Validate(params object[] args)
         {
             var hasArgs = !args.IsNullOrEmpty();
 
-            if (_parameters.Length == 0)
+            if (_manualParameters.Length == 0)
             {
                 if (hasArgs)
-                    throw new ResolveWithParametersException();
+                    throw new ResolveWithArgumentsException(_instanceType, ResolveWithArgumentsExceptionType.TypeDoesNotHasManualParameters);
             }
             else
             {
                 if (!hasArgs)
-                    throw new ResolveWithoutParametersException();
+                    throw new ResolveWithoutArgumentsException(_instanceType, _manualParameters.Length);
 
-                if (args.Length < _parameters.Length)
-                    throw new ResolveWithLessParametersException();
+                if (args.Length < _manualParameters.Length)
+                    throw new ResolveWithLessArgumentsException(_instanceType, _manualParameters.Length, args.Length);
 
-                if (args.Length > _parameters.Length)
-                    throw new ResolveWithMoreParametersException();
+                if (args.Length > _manualParameters.Length)
+                    throw new ResolveWithMoreArgumentsException(_instanceType, _manualParameters.Length, args.Length);
 
                 if (!IsSequenceValid(args))
-                    throw new ResolveWithInvalidParametersSequenceException();
+                    throw new ResolveWithInvalidParametersSequenceException(_instanceType, _manualParameters, args);
             }
         }
 
         private bool IsSequenceValid(object[] args)
         {
-            for (var i = 0; i < _parameters.Length; i++)
+            for (var i = 0; i < _manualParameters.Length; i++)
             {
-                var parameterType = _parameters[i].Type;
+                var parameterType = _manualParameters[i].Type;
                 var argType = args[i].GetType();
 
                 if (!parameterType.IsAssignableFrom(argType))

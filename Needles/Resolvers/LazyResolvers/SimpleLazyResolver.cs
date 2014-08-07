@@ -9,7 +9,7 @@ namespace Needles.Resolvers.LazyResolvers
         public T Resolve(params object[] args)
         {
             if (!args.IsNullOrEmpty())
-                throw new ResolveWithParametersException();
+                throw new ResolveWithArgumentsException(typeof(T), ResolveWithArgumentsExceptionType.TypeDoesNotHasParameters);
 
             return (T)Activator.CreateInstance(typeof(T));
         }

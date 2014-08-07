@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Needles.Parameters;
@@ -14,6 +15,8 @@ namespace Needles.Tests.Mocks
         }
 
         public List<IParameter> Parameters { get; set; }
+        public Type InstanceType { get; set; }
+
         int IParameterCollection.Count
         {
             get { return Parameters.Count; }
