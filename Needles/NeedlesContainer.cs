@@ -6,7 +6,7 @@ namespace Needles
     {
         public static IContainer Create()
         {
-            var resolverFactory = new ResolverFactory(new ParameterCollectionFactory(new ParameterFactory()));
+            var resolverFactory = CreateResolverFactory();
             var mapperFactory = new MapperFactory(resolverFactory);
 
             var container = new Container(mapperFactory, resolverFactory);
@@ -14,6 +14,11 @@ namespace Needles
             container.Map<IContainer>().To(container);
 
             return container;
+        }
+
+        internal static ResolverFactory CreateResolverFactory()
+        {
+            return new ResolverFactory(new ParameterCollectionFactory(new ParameterFactory()));
         }
     }
 }

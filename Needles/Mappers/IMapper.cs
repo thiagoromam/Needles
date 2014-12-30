@@ -10,5 +10,6 @@ namespace Needles.Mappers
         IMappingResult To<TInstance>() where TInstance : T;
         IMappingResult ToSelf();
         IMappingResult To(Func<IResolverContainer, T> factory);
+        void ToService<TService>() where TService : T;
     }
 }

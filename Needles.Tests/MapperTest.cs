@@ -1,5 +1,6 @@
 ﻿using System;
 using Needles.Mappers;
+using Needles.Resolvers;
 using Needles.Tests.Mocks;
 using Needles.Tests.Types;
 using NUnit.Framework;
@@ -53,6 +54,15 @@ namespace Needles.Tests
         }
 
         [Test]
+        public void MapToAutoServiceTest()
+        {
+            IMapper<IConnection> mapper = new Mapper<IConnection>(_factory);
+            mapper.ToService<Connection>();
+
+            Assert.IsInstanceOf<IServiceResolver<Connection>>(_factory.Resolver);
+        }
+
+        [Test]
         public void MapServiceTest()
         {
             var result = _mapper.To<Connection>();
@@ -63,7 +73,7 @@ namespace Needles.Tests
 
             Assert.IsInstanceOf<ServiceResolverMock<IConnection>>(_factory.Resolver);
         }
-
+        
         [Test]
         public void ResolveTest()
         {

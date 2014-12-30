@@ -66,6 +66,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ContainerTest.cs" />
+    <Compile Include="FactoriesTests\ResolverFactoryTests.cs" />
     <Compile Include="Helpers\EnumerableHelperTest.cs" />
     <Compile Include="MapperTest.cs" />
     <Compile Include="Mocks\ArgumentsResolverMock.cs" />

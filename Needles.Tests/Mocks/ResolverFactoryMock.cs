@@ -8,7 +8,7 @@ namespace Needles.Tests.Mocks
     internal class ResolverFactoryMock : IResolverFactory, IResolverFactoryInitializer
     {
         public IResolverMock Resolver { get; set; }
-        public IResolverContainer Container { set; get; }
+        public IContainer Container { set; get; }
 
         ILazyResolver<T> IResolverFactory.CreateLazyResolver<T>()
         {
@@ -17,7 +17,6 @@ namespace Needles.Tests.Mocks
 
             return r;
         }
-
         IFuncResolver<T> IResolverFactory.CreateFuncResolver<T>(Func<IResolverContainer, T> factory)
         {
             var r = new FuncResolverMock<T>();
@@ -25,7 +24,6 @@ namespace Needles.Tests.Mocks
 
             return r;
         }
-
         IServiceResolver<T> IResolverFactory.CreateServiceResolver<T>(T instance)
         {
             var r = new ServiceResolverMock<T>();
@@ -33,8 +31,14 @@ namespace Needles.Tests.Mocks
 
             return r;
         }
-
         IServiceResolver<T> IResolverFactory.CreateServiceResolver<T>(IResolver<T> resolver)
+        {
+            var r = new ServiceResolverMock<T>();
+            Resolver = r;
+
+            return r;
+        }
+        public IServiceResolver<T> CreateAutoServiceResolver<T>()
         {
             var r = new ServiceResolverMock<T>();
             Resolver = r;

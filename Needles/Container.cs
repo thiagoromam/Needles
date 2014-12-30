@@ -15,6 +15,7 @@ namespace Needles
     public interface IContainer : IResolverContainer
     {
         IMapper<T> Map<T>();
+        bool IsMapped<T>();
     }
 
     internal class Container : IContainer
@@ -31,19 +32,20 @@ namespace Needles
 
         public IMapper<T> Map<T>()
         {
-            var type = typeof(T);
+            if (!IsMapped<T>())
+                _mappers[typeof(T)] = _mapperFactory.Create<T>();
 
-            if (!_mappers.ContainsKey(type))
-                _mappers[type] = _mapperFactory.Create<T>();
-
-            return (IMapper<T>)_mappers[type];
+            return (IMapper<T>)_mappers[typeof(T)];
+        }
+        public bool IsMapped<T>()
+        {
+            return _mappers.ContainsKey(typeof(T));
         }
 
         public T Resolve<T>(params object[] args)
         {
             return (T)Resolve(typeof(T), args);
         }
-
         public object Resolve(Type type, params object[] args)
         {
             if (!_mappers.ContainsKey(type))

@@ -32,6 +32,10 @@ namespace Needles.Mappers
             _resolver = _resolverFactory.CreateFuncResolver(factory);
             return this;
         }
+        void IMapper<T>.ToService<TService>()
+        {
+            _resolver = (IResolver<T>)_resolverFactory.CreateAutoServiceResolver<TService>();
+        }
 
         object IMapping.Resolve(object[] args)
         {
